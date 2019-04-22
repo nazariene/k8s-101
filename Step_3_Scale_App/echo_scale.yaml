@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: echo-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: echo-app
+      namespace: dev-pcc-bordeaux
+      labels:
+        app: echo-app
+    spec:
+      containers:
+      - name: echo-app
+        image: mtr.external.otc.telekomcloud.com/dvershin/echo:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name:  ECHO_STRING
+            value: "BORDEAUX"
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-service
+spec:
+  selector:
+    app: echo-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: echo-route
+spec:
+  rules:
+  - host: echo-app.tifapis.de.t-internal.com
+    http:
+     paths:
+     - path: /
+       backend:
+        serviceName: echo-service
+        servicePort: 80
+

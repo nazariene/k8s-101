@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echo-app
+  namespace: dev-pcc-bordeaux
+  labels:
+    app: echo-app
+spec:
+  containers:
+  - name: echo-app
+    image: mtr.external.otc.telekomcloud.com/dvershin/echo:latest
+    ports:
+    - containerPort: 8080
+    env:
+      - name:  ECHO_STRING
+        value: "BORDEAUX"

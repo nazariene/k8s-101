@@ -1,0 +1,11 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+deploy:
+  helm:
+    releases:
+    - name: echo-app
+      namespace: dev-pcc-bordeaux
+      chartPath: ./chart/
+      valuesFiles:
+      - ./values.yaml
+
